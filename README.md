@@ -145,29 +145,34 @@ In you favorite shell, run terraform apply and review the execution plan on what
 
 Your final result should look like:
 ```
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-Virtual_Machine_Address = 63.33.48.154
-atlasclusterstring = mongodb+srv://sample-pl-0.HHHHHH.mongodb.net
+Virtual_Machine_Address = <IP-ADDRESS>
+atlasclusterstring = mongodb+srv://eb-cluster-pl-0.<ID>.mongodb.net
 user1 = demouser1
 ```
 
 ## Now login, if you have your ssh keys properly configured:
 ```
->$ ssh ubuntu@63.33.48.154
+>$ ssh ubuntu@<IP-ADDRESS>
 ...
 Last login: Mon Feb  8 09:47:34 2021 from **************************
-testuser@demo-link:~$ mongo mongodb+srv://sample-pl-0.HHHHHH.mongodb.net --username testuser
-MongoDB shell version v4.4.3
+MongoDB shell version v4.4.4
 Enter password: 
-connecting to: mongodb://pl-0-westeurope-azure.HHHHHH.mongodb.net:1026,pl-0-westeurope-azure.HHHHHH.mongodb.net:1025,pl-0-westeurope-azure.HHHHHH.mongodb.net:1024/?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-zmjsri-shard-0&ssl=true
-Implicit session: session { "id" : UUID("8ee43f82-3da4-41c7-a36a-3baf93ca7464") }
+connecting to: mongodb://pl-0-eu-west-1.n3cia.mongodb.net:1024,pl-0-eu-west-1.n3cia.mongodb.net:1025,pl-0-eu-west-1.n3cia.mongodb.net:1026/?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-n5ez0t-shard-0&ssl=true
+Implicit session: session { "id" : UUID("764f0981-279f-4546-935e-a1197d5d1094") }
 MongoDB server version: 4.2.12
 WARNING: shell and server versions do not match
-MongoDB Enterprise atlas-zmjsri-shard-0:PRIMARY> 
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+	https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+	https://community.mongodb.com
+MongoDB Enterprise atlas-n5ez0t-shard-0:PRIMARY> 
 ```
  
-## Known Bugs
+## Known Bugs or RFEs
 * let me know
