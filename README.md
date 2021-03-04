@@ -36,11 +36,13 @@ Initializing provider plugins...
 * mongodbatlas_privatelink_endpoint_service, create private link service in Atlas
 * aws_vpc_endpoint, create Private Endpoint in AWS
 
-## In order to provision a Atlas cluster and an AWS:
+## In order to provision a Atlas cluster on AWS:
 * mongodbatlas_cluster, Create cluster 
 * mongodbatlas_database_user, Provision a user to the database
 
- 
+## Bonus: EC2 Ubuntu VM with some basic tools installed: mongo shell, etc
+* aws_instance
+    
 ## Configure Script - Credentials: "variables.tf"
 
 To configure the providers, such as Atlas and Azure, one needs credentials to gain access.
