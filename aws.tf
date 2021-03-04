@@ -24,7 +24,7 @@ resource "aws_vpc_endpoint" "ptfe_service" {
   service_name       = mongodbatlas_privatelink_endpoint.test.endpoint_service_name
   vpc_endpoint_type  = "Interface"
   security_group_ids = [data.aws_security_group.default.id]
-  subnet_ids         = data.aws_subnet.default.id
+  subnet_ids         = [for s in data.aws_subnet.default : s.id]
 }
 
 data "aws_ami" "ubuntu" {
