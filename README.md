@@ -125,7 +125,6 @@ locals {
     # The id of the above group
     vpc_security_group_id = "sg-dce6f4b8"
   
-
     # Instance type to use for testing
     aws_ec2_instance      = "t3.medium"
 }
