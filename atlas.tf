@@ -50,10 +50,10 @@ resource "mongodbatlas_cluster" "this" {
  # backup_enabled             = true
  provider_backup_enabled      = true
  auto_scaling_disk_gb_enabled = true
- mongo_db_major_version       = "4.2"
+ mongo_db_major_version       = "5.0"
 
  provider_name               = local.provider_name
- provider_instance_size_name = "M10"
+ provider_instance_size_name = "M30"
  # this provider specific, why?
  provider_region_name        = local.region
 }

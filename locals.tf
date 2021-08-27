@@ -31,6 +31,8 @@ locals {
 
     # Instance type to use for testing
     aws_ec2_instance = "t3.medium"
+    # Instance name
+    aws_ec2_name = "${local.prefix}-vm"
 }
 
 terraform {

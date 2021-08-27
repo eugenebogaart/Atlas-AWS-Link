@@ -104,7 +104,7 @@ locals {
     organization_id       = "599ef70e9f78f769464e3729"
     # New empty Atlas project name to create in organization
     project_id            = "${local.prefix}-AWS-Linked-project"
-    # Atlas region, https://docs.atlas.mongodb.com/reference/amazon-aws/std-label-amazon-aws
+    # Atlas region, https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws
     region                = "EU_WEST_1"
     # Atlas cluster name
     cluster_name		      = "${local.prefix}-Cluster"    
@@ -127,12 +127,9 @@ locals {
     # The id of the above group
     vpc_security_group_id = "sg-dce6f4b8"
   
-    # Instance type to use for testing
-    aws_ec2_instance      = "t3.medium"
-}
 
-terraform {
-  required_version = ">= 0.13.05"
+    # Instance type to use for testing
+    aws_ec2_instance = "t3.medium"
 }
 ```
 
@@ -151,8 +148,10 @@ Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
 Outputs:
 
 Virtual_Machine_Address = <IP-ADDRESS>
-atlasclusterstring = mongodb+srv://eb-cluster-pl-0.<ID>.mongodb.net
+atlasclusterstring = mongodb+srv://cluster0-pl-0.bfe7z.mongodb.net
+atlasprivatehostadress0 = mongodb://pl-0-eu-west-1.bfe7z.mongodb.net:1024,pl-0-eu-west-1.bfe7z.mongodb.net:1025,pl-0-eu-west-1.bfe7z.mongodb.net:1026/?ssl=true&authSource=admin&replicaSet=atlas-q0er7v-shard-0
 user1 = demouser1
+
 ```
 
 ## Now login, if you have your ssh keys properly configured:
