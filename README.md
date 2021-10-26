@@ -7,6 +7,9 @@ The documentation on how to do this manually: https://docs.atlas.mongodb.com/sec
 The end result of the Terraform script is a project in Atlas + a Cluster + provisioned user, Private Endpoint in AWS with a 1 vm with public interface (ssh/key).
 The vm has already MongoDB client tools installed.
 
+<img style="max-width: 100%; height: auto; " src="overview.jpg">
+
+
 ## Prerequisites:
 * Have your AWS cli configured t bue used by Terrafrom
 * Have Terraform 0.13+ installed
