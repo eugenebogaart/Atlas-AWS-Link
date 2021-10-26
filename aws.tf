@@ -6,25 +6,84 @@ provider "aws" {
   region  = local.aws_region
 }
 
-data "aws_security_group" "default" {
-  id = local.vpc_security_group_id
+resource "aws_vpc" "vpc" {
+  cidr_block = local.aws_route_cidr_block
+  # Required to resolve hostname to internal addresses
+  enable_dns_support = true
+  enable_dns_hostnames = true
+  instance_tenancy = "default"
+
+  tags = local.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_security_group.default.vpc_id
+resource "aws_subnet" "subnet1" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = local.aws_subnet1_cidr_block
+ 
+  tags = local.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
-data "aws_subnet" "default" {
-  for_each = data.aws_subnet_ids.default.ids
-  id       = each.value
+resource "aws_internet_gateway" "main_gw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = local.tags 
+  lifecycle {
+    ignore_changes = [tags]
+  }
+}
+
+resource "aws_route_table" "main_route" {
+  vpc_id = aws_vpc.vpc.id  
+  route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.main_gw.id
+    }
+
+  tags = local.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
+}
+
+resource "aws_route_table_association" "main-subnet" {
+  subnet_id = aws_subnet.subnet1.id
+  route_table_id = aws_route_table.main_route.id
+}
+
+resource "aws_security_group" "main" {
+  vpc_id = aws_vpc.vpc.id
+  egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"   
+    // Put your office or home address in it!
+    cidr_blocks = [ var.provisioning_address_cdr ]
+  }
+
+  tags = local.tags
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "aws_vpc_endpoint" "ptfe_service" {
-  vpc_id             = data.aws_security_group.default.vpc_id 
+  vpc_id             = aws_security_group.main.vpc_id 
   service_name       = mongodbatlas_privatelink_endpoint.test.endpoint_service_name
   vpc_endpoint_type  = "Interface"
-  security_group_ids = [data.aws_security_group.default.id]
-  subnet_ids         = [for s in data.aws_subnet.default : s.id]
+  security_group_ids = [aws_security_group.main.id]
+  subnet_ids         = [aws_subnet.subnet1.id]
 }
 
 data "aws_ami" "ubuntu" {
@@ -50,15 +109,17 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_instance" "web" {
   ami               = data.aws_ami.ubuntu.id
-  availability_zone = local.aws_az
+  # availability_zone = local.aws_az
   instance_type     = local.aws_ec2_instance
   key_name          = var.key_name
-  vpc_security_group_ids = [data.aws_security_group.default.id]
+  vpc_security_group_ids = [aws_security_group.main.id]
+  subnet_id         = aws_subnet.subnet1.id
   associate_public_ip_address = true
 
   ebs_block_device {
     device_name = "/dev/sda1"
     volume_size = 30
+    volume_type ="gp2"
   }
 
   provisioner "remote-exec" {
@@ -88,14 +149,16 @@ resource "aws_instance" "web" {
     agent       = true
     private_key = file(var.private_key_path)
   }
+  
+  tags = merge(
+    local.tags,
+    {
+      Name = local.aws_ec2_name
+    })
 
-  tags = {
-    OwnerContact = "eugene@mongodb.com"
-    Name = local.aws_ec2_name
-    provisioner = "Terraform"
-    owner = "eugene.bogaart"
-    expire-on = "2021-09-11"
-    purpose = "opportunity"
+  lifecycle {
+    ignore_changes = [tags, ebs_block_device]
+    create_before_destroy = true
   }
 }
 

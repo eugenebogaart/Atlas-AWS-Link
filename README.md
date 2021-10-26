@@ -72,16 +72,19 @@ and the path to the private key on your installation host
 Third there are several other parameters that are trusted, which should be provided via environment variables. See below list of environment variables that are expected.
 
 ```
-variable "admin_password" {
-  description = "Password for default users"
-  type = string
-}
-
 variable "aws_account_id" {
   description = "Aws_account_id ..."
   type = string
 }
 
+variable "organization_id" {
+  description = "Atlas organization"
+  type = string
+} 
+variable "admin_password" {
+  description = "Password for default users"
+  type = string
+}
 variable "key_name" {
   description = "Key pair name"
   type = string
@@ -89,6 +92,11 @@ variable "key_name" {
 
 variable "private_key_path" {
   description = "Access path to private key"
+  type = string
+}
+
+variable "provisioning_address_cdr" {
+  description = "SSH firewall source address, home/office !?"
   type = string
 }
 ```
@@ -100,11 +108,9 @@ In the locals resource of the locals.tf file, several parameters should be adapt
 locals {
     # Generic project prefix, to rename most components
     prefix                = "EB"    
-    # Atlas organization where to provsion a new group
-    organization_id       = "599ef70e9f78f769464e3729"
     # New empty Atlas project name to create in organization
-    project_id            = "${local.prefix}-AWS-Linked-project"
-    # Atlas region, https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws
+    project_name           = "${local.prefix}-AWS-Linked-project"
+    # Atlas region,https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws
     region                = "EU_WEST_1"
     # Atlas cluster name
     cluster_name		      = "${local.prefix}-Cluster"    
@@ -117,21 +123,27 @@ locals {
 
     # AWS Region
     aws_region            = "eu-west-1"
-    # AWS Availability_Zone
-    aws_az                = "eu-west-1c"
+
+    aws_route_cidr_block  = "10.11.6.0/23"
+    # AWS Subnet block (first 256)
+    aws_subnet1_cidr_block = "10.11.6.0/24"
+    # AWS Subnet block (second 256)
+    aws_subnet2_cidr_block = "10.11.7.0/24"
+
     # AWS user_name
     admin_username        = "demouser1"
-
-    # AWS security group
-    aws_security_group    = "default"
-    # The id of the above group
-    vpc_security_group_id = "sg-dce6f4b8"
   
-
     # Instance type to use for testing
     aws_ec2_instance = "t3.medium"
     # Instance name
     aws_ec2_name = "${local.prefix}-vm"
+
+    tags = { 
+      Name = "${local.prefix}-tf-provisioned"
+      OwnerContact = "eugene@mongodb.com"
+      expire-on = timeadd(timestamp(), "760h")
+      purpose = "opportunity"
+  }
 }
 ```
 

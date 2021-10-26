@@ -7,7 +7,6 @@ variable "organization_id" {
   description = "Atlas organization"
   type = string
 } 
-
 variable "admin_password" {
   description = "Password for default users"
   type = string
@@ -19,5 +18,10 @@ variable "key_name" {
 
 variable "private_key_path" {
   description = "Access path to private key"
+  type = string
+}
+
+variable "provisioning_address_cdr" {
+  description = "SSH firewall source address, home/office !?"
   type = string
 }

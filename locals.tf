@@ -16,21 +16,27 @@ locals {
 
     # AWS Region
     aws_region            = "eu-west-1"
-    # AWS Availability_Zone
-    aws_az                = "eu-west-1c"
+
+    aws_route_cidr_block  = "10.11.6.0/23"
+    # AWS Subnet block (first 256)
+    aws_subnet1_cidr_block = "10.11.6.0/24"
+    # AWS Subnet block (second 256)
+    aws_subnet2_cidr_block = "10.11.7.0/24"
+
     # AWS user_name
     admin_username        = "demouser1"
-
-    # AWS security group
-    aws_security_group    = "default"
-    # The id of the above group
-    vpc_security_group_id = "sg-dce6f4b8"
   
-
     # Instance type to use for testing
     aws_ec2_instance = "t3.medium"
     # Instance name
     aws_ec2_name = "${local.prefix}-vm"
+
+    tags = { 
+      Name = "${local.prefix}-tf-provisioned"
+      OwnerContact = "eugene@mongodb.com"
+      expire-on = timeadd(timestamp(), "760h")
+      purpose = "opportunity"
+  }
 }
 
 terraform {
