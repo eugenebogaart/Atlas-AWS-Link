@@ -23,8 +23,8 @@ provider "mongodbatlas" {
 
 # Need a project
 resource "mongodbatlas_project" "proj1" {
-  name   = local.project_id
-  org_id = local.organization_id
+  name   = local.project_name
+  org_id = var.organization_id
 }
 
 resource "mongodbatlas_privatelink_endpoint" "test" {

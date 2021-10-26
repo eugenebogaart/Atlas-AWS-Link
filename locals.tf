@@ -1,10 +1,8 @@
 locals {
     # Generic project prefix, to rename most components
     prefix                = "EB"    
-    # Atlas organization where to provsion a new group
-    organization_id       = "599ef70e9f78f769464e3729"
     # New empty Atlas project name to create in organization
-    project_id            = "${local.prefix}-AWS-Linked-project"
+    project_name           = "${local.prefix}-AWS-Linked-project"
     # Atlas region,https://docs.atlas.mongodb.com/reference/amazon-aws/#std-label-amazon-aws
     region                = "EU_WEST_1"
     # Atlas cluster name
