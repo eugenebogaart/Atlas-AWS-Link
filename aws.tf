@@ -123,25 +123,9 @@ resource "aws_instance" "web" {
   }
 
   provisioner "remote-exec" {
-    inline = [
-	    "sleep 10",
-	    "sudo apt-get -y update",
-	    "sudo apt-get -y install python3-pip",
-      "sudo apt-get -y update",
-	    "sudo apt-get -y install python3-pip",
-	    "sudo pip3 install pymongo==3.9.0",
-	    "sudo pip3 install faker",
-	    "sudo pip3 install dnspython",
-
-      "wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -",
-      "echo 'deb [ arch=amd64,arm64 ] http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/5.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list",
-      "sudo apt-get update",
-	    "sudo apt-get install -y mongodb-enterprise mongodb-enterprise-shell mongodb-enterprise-tools",
-
-      "sudo rm -f /etc/resolv.conf ; sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf"
-	  ]
+    inline = concat(local.python, local.mongodb)
   }
-  
+
   connection {
     host        = aws_instance.web.public_ip
     user        = "ubuntu"

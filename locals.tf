@@ -31,6 +31,19 @@ locals {
     # Instance name
     aws_ec2_name = "${local.prefix}-vm"
 
+    python = [
+      "sleep 10",
+      "sudo apt-get -y update",
+	    "sudo apt-get -y install python3-pip",
+	    "sudo pip3 install pymongo==3.9.0",
+	    "sudo pip3 install dnspython"
+    ]
+    mongodb = [
+      "wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -",
+      "echo 'deb [ arch=amd64,arm64 ] http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/5.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list",
+      "sudo apt-get update",
+      "sudo apt-get install -y mongodb-enterprise mongodb-enterprise-shell mongodb-enterprise-tools"
+    ]
     tags = { 
       Name = "${local.prefix}-tf-provisioned"
       OwnerContact = "eugene@mongodb.com"
