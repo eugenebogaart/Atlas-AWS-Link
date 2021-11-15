@@ -49,7 +49,7 @@ locals {
       OwnerContact = "eugene@mongodb.com"
       expire-on = timeadd(timestamp(), "760h")
       purpose = "opportunity"
-  }
+    }
 }
 
 terraform {
