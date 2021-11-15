@@ -18,7 +18,6 @@ provider "mongodbatlas" {
   # variable are provided via ENV
   # public_key = ""
   # private_key  = ""
-  version = "~>0.8.2"
 }
 
 # Need a project
@@ -48,7 +47,8 @@ resource "mongodbatlas_cluster" "this" {
  replication_factor           = 3
  # not allowed for version 4.2 clusters and above
  # backup_enabled             = true
- provider_backup_enabled      = true
+ # provider_backup_enabled    = true
+ cloud_backup                 = true
  auto_scaling_disk_gb_enabled = true
  mongo_db_major_version       = "5.0"
 
