@@ -25,3 +25,9 @@ variable "provisioning_address_cdr" {
   description = "SSH firewall source address, home/office !?"
   type = string
 }
+
+variable "user_email" {
+  description = "Email address to add as tag"
+  type = string
+  default = "somebody@example.com"
+}
