@@ -72,6 +72,14 @@ resource "aws_security_group" "main" {
     cidr_blocks = [ var.provisioning_address_cdr ]
   }
 
+  ingress {
+    from_port = 1024
+    to_port = 1026
+    protocol = "tcp"   
+    // Enable inbound ports to Endpoint service
+    cidr_blocks = [ local.aws_route_cidr_block ]
+  }
+
   tags = local.tags
   lifecycle {
     ignore_changes = [tags]
