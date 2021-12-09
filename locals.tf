@@ -27,7 +27,9 @@ locals {
     admin_username        = "demouser1"
   
     # Instance type to use for testing
-    aws_ec2_instance = "t3.medium"
+    #aws_ec2_instance = "t3.medium"
+    aws_ec2_instance = "m4.xlarge"
+
     # Instance name
     aws_ec2_name = "${local.prefix}-vm"
 
@@ -35,7 +37,8 @@ locals {
       "sleep 10",
       "sudo apt-get -y update",
 	    "sudo apt-get -y install python3-pip",
-	    "sudo pip3 install pymongo==3.9.0",
+	    "sudo pip3 install pymongo==4.0.1",
+      "sudo pip3 install faker",
 	    "sudo pip3 install dnspython"
     ]
     mongodb = [
@@ -46,9 +49,9 @@ locals {
     ]
     tags = { 
       Name = "${local.prefix}-tf-provisioned"
-      OwnerContact = "eugene@mongodb.com"
+      owner = var.user_email
       expire-on = timeadd(timestamp(), "760h")
-      purpose = "opportunity"
+      purpose = "training"
     }
 }
 

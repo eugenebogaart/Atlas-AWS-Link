@@ -1,7 +1,7 @@
 # MongoDB Atlas project Private Endpoint in AWS
 
 ## Background
-Based on an small Proof of Concept to make Atlas available via Private Endpoint in AWS in the same region, this script automates all steps. 
+Based on a small Proof of Concept to make Atlas available via Private Endpoint in AWS in the same region, this script automates all steps. 
 The documentation on how to do this manually: https://docs.atlas.mongodb.com/security-private-endpoint 
 
 The end result of the Terraform script is a project in Atlas + a Cluster + provisioned user, Private Endpoint in AWS with a 1 vm with public interface (ssh/key).
@@ -11,18 +11,18 @@ The vm has already MongoDB client tools installed.
 
 
 ## Prerequisites:
-* Have your AWS cli configured t bue used by Terrafrom
-* Have Terraform 0.13+ installed
+* Have your AWS cli configured to be used by Terrafrom
+* Have Terraform v1.0.11+ installed
 * Run: terraform init 
 
 ```
 Initializing provider plugins...
 - Finding latest version of hashicorp/aws...
-- Finding mongodb/mongodbatlas versions matching "~> 0.8.2"...
+- Finding mongodb/mongodbatlas versions matching "~> 1.1.1"...
 - Installing hashicorp/aws v3.30.0...
 - Installed hashicorp/aws v3.30.0 (signed by HashiCorp)
-- Installing mongodb/mongodbatlas v0.8.2...
-- Installed mongodb/mongodbatlas v0.8.2 (signed by a HashiCorp partner, key ID 2A32ED1F3AD25ABF)
+- Installing mongodb/mongodbatlas v1.1.1...
+- Installed mongodb/mongodbatlas v1.1.1 (signed by a HashiCorp partner, key ID 2A32ED1F3AD25ABF)
 ```
 
 ## Config:
@@ -31,7 +31,9 @@ Initializing provider plugins...
 * Run: terraform apply
 
 ## Todo:
-* Test with terrafrom 14. 
+* ~~Test with terrafrom v1.0.11.~~ 
+* ~~Upgrade to new resource mongodbatlas_advanced_cluster~~ (to utilize the version = Latest)
+* ~~Use mongodbatlas provider version 1.1.1~~
 
 ## Basic Terraform resources in script
 * mongodbatlas_project,  creates an empty project in your Atlas account
@@ -40,7 +42,7 @@ Initializing provider plugins...
 * aws_vpc_endpoint, create Private Endpoint in AWS
 
 ## In order to provision a Atlas cluster on AWS:
-* mongodbatlas_cluster, Create cluster 
+* mongodbatlas_advanced_cluster, Create cluster 
 * mongodbatlas_database_user, Provision a user to the database
 
 ## Bonus: EC2 Ubuntu VM with some basic tools installed: mongo shell, etc
