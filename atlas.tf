@@ -85,7 +85,6 @@ resource "mongodbatlas_advanced_cluster" "this" {
   }  
 }
 
-
 output "atlasclusterstring" {
    value = mongodbatlas_advanced_cluster.this.connection_strings[0]
 }
