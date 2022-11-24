@@ -42,10 +42,10 @@ locals {
 	    "sudo pip3 install dnspython"
     ]
     mongodb = [
-      "wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -",
-      "echo 'deb [ arch=amd64,arm64 ] http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/5.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list",
+      "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -",
+      "echo 'deb [ arch=amd64 ] http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/6.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list",
       "sudo apt-get update",
-      "sudo apt-get install -y mongodb-enterprise mongodb-enterprise-shell mongodb-enterprise-tools"
+	    "sudo apt-get install -y mongodb-enterprise-shell mongodb-mongosh",
     ]
     tags = { 
       Name = "${local.prefix}-tf-provisioned"
