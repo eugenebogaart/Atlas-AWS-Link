@@ -74,7 +74,7 @@ resource "aws_security_group" "main" {
 
   ingress {
     from_port = 1024
-    to_port = 1026
+    to_port = 1027
     protocol = "tcp"   
     // Enable inbound ports to Endpoint service
     cidr_blocks = [ local.aws_route_cidr_block ]
@@ -152,6 +152,11 @@ resource "aws_instance" "web" {
     ignore_changes = [tags, ebs_block_device]
     create_before_destroy = true
   }
+
+  provisioner "remote-exec" {
+    inline = concat(local.python, local.mongodb)
+  }
+
 }
 
 output "Virtual_Machine_Address" {
